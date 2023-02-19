@@ -1,10 +1,11 @@
 # Import libraries
 import pandas as pd
+import tabula
 
 # Create the class and methods
 class DataExtractor:
 
-    # Create a method that will read the data from the database
+    # Create a method that extracts and reads the data from the database
     def read_rds_table(self, db_connector, table_name):
 
         """Assign arguments to instance variables"""
@@ -16,4 +17,11 @@ class DataExtractor:
         table = pd.read_sql_table(table_name, engine)
         df = pd.DataFrame(table)
 
+        return df
+    
+    # Create a method that extracts and reads the data from a PDF document
+    def retrieve_pdf_data(self, link):
+        self.link = link
+        tables = tabula.read_pdf(self.link, lattice = True, pages = "all")
+        df = pd.concat(tables)
         return df
