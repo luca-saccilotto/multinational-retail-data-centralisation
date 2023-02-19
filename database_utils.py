@@ -2,6 +2,10 @@
 from sqlalchemy import create_engine, inspect
 import yaml
 
+# Import classes and methods
+from data_extraction import DataExtractor
+from data_cleaning import DataCleaning
+
 # Create the class and methods
 class DatabaseConnector:
 
@@ -48,7 +52,7 @@ class DatabaseConnector:
         DBAPI = "psycopg2"
         HOST = "localhost"
         USER = "postgres"
-        PASSWORD = "postgres"
+        PASSWORD = "yqcjftVD644"
         DATABASE = "Sales_Data"
         PORT = 5432
 
@@ -56,12 +60,19 @@ class DatabaseConnector:
         engine = create_engine(f"{DATABASE_TYPE}+{DBAPI}://{USER}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}")
         self.df.to_sql("dim_users", engine, if_exists = "replace")
 
-# Create an instance for the class
+# Create instances for each class
 db_connector = DatabaseConnector()
+db_extractor = DataExtractor()
+db_cleaner = DataCleaning()
 
-# Get the name of the table containing user data
-user_data = db_connector.list_db_tables()
-print(user_data)
+# Retrieve the name of the table that contains user data
+user_table = db_connector.list_db_tables()
 
-# Use the method to store the data in the database
+# Extract and read user data from the database
+user_data = db_extractor.read_rds_table(db_connector, "legacy_users")
+
+# Perform the cleaning of user data
+df = db_cleaner.clean_user_data(user_data)
+
+# Use the method to upload user data in the database
 db_connector.upload_to_db(df)

@@ -1,5 +1,4 @@
 # Import libraries
-from database_utils import db_connector
 import pandas as pd
 
 # Create the class and methods
@@ -18,10 +17,3 @@ class DataExtractor:
         df = pd.DataFrame(table)
 
         return df
-
-# Create an instance for the class
-db_extractor = DataExtractor()
-
-# Extract user data
-user_data = db_extractor.read_rds_table(db_connector, "legacy_users")
-print(user_data)
