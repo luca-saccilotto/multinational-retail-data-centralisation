@@ -2,10 +2,6 @@
 from sqlalchemy import create_engine, inspect
 import yaml
 
-# Import classes and methods
-from data_extraction import DataExtractor
-from data_cleaning import DataCleaning
-
 # Create the class and methods
 class DatabaseConnector:
 
@@ -45,7 +41,6 @@ class DatabaseConnector:
     
     # Create a method to upload the data in the database
     def upload_to_db(self, df):
-        self.df = df
 
         """Report server and database details"""
         DATABASE_TYPE = "postgresql"
@@ -58,37 +53,4 @@ class DatabaseConnector:
 
         """Store the data in the database"""
         engine = create_engine(f"{DATABASE_TYPE}+{DBAPI}://{USER}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}")
-        self.df.to_sql("dim_card_details", engine, if_exists = "replace")
-
-# Create instances for each class
-db_connector = DatabaseConnector()
-data_extractor = DataExtractor()
-data_cleaning = DataCleaning()
-
-##########
-
-## Retrieve the name of the table that contains user data
-user_table = db_connector.list_db_tables()
-
-## Extract and read user data from the database
-user_data = data_extractor.read_rds_table(db_connector, "legacy_users")
-
-## Perform the cleaning of user data
-df = data_cleaning.clean_user_data(user_data)
-
-## Use the method to upload user data in the database
-db_connector.upload_to_db(df)
-
-##########
-
-## Extract and read card data from a PDF document
-card_data = data_extractor.retrieve_pdf_data(
-    link = "https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf")
-
-## Perform the cleaning of card data
-df = data_cleaning.clean_card_data(card_data)
-
-## Use the method to upload card data in the database
-db_connector.upload_to_db(df)
-
-##########
+        df.to_sql("dim_store_details", engine, if_exists = "replace")
