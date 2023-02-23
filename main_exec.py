@@ -13,7 +13,8 @@ data_cleaning = DataCleaning()
 #%%
 
 ## Retrieve the name of the table that contains user data
-user_table = db_connector.list_db_tables()
+tables_list = db_connector.list_db_tables()
+print(tables_list)
 
 ## Extract and read user data from the database
 user_data = data_extractor.read_rds_table(db_connector, "legacy_users")
@@ -63,4 +64,38 @@ product_details = data_extractor.extract_from_s3(
     object_name = "products.csv",
     file_name = "products.csv")
 
-## 
+## Convert product weight to decimal value
+product_details = data_cleaning.convert_product_weights(product_details)
+
+## Perform the cleaning of product data
+product_details = data_cleaning.clean_product_data(product_details)
+
+## Use the method to upload store details in the database
+db_connector.upload_to_db(product_details)
+
+# %%
+
+## Extract and read orders data from the database
+orders_data = data_extractor.read_rds_table(db_connector, "orders_table")
+
+## Perform the cleaning of orders data
+orders_data = data_cleaning.clean_orders_data(orders_data)
+
+## Use the method to upload orders data in the database
+db_connector.upload_to_db(orders_data)
+
+# %%
+
+## Extract date events data stored in an S3 bucket on AWS
+date_events = data_extractor.extract_events_data(
+    bucket_name = "data-handling-public",
+    object_name = "date_details.json",
+    file_name = "date_details.json")
+
+## Perform the cleaning of product data
+date_events = data_cleaning.clean_events_data(date_events)
+
+## Use the method to upload store details in the database
+db_connector.upload_to_db(date_events)
+
+# %%

@@ -50,9 +50,15 @@ class DataExtractor:
 
         return store_details
     
-    # Create a method to download and extract product information stored in an S3 bucket on AWS
+    # Create methods to download and extract product information stored in an S3 bucket on AWS
     def extract_from_s3(self, bucket_name, object_name, file_name):
         s3 = boto3.client("s3", config = Config(signature_version = UNSIGNED))
         s3.download_file(bucket_name, object_name, file_name)
         product_details = pd.read_csv(file_name)
         return product_details
+    
+    def extract_events_data(self, bucket_name, object_name, file_name):
+        s3 = boto3.client("s3", config = Config(signature_version = UNSIGNED))
+        s3.download_file(bucket_name, object_name, file_name)
+        date_events = pd.read_json(file_name)
+        return date_events

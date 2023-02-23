@@ -53,4 +53,4 @@ class DatabaseConnector:
 
         """Store the data in the database"""
         engine = create_engine(f"{DATABASE_TYPE}+{DBAPI}://{USER}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}")
-        df.to_sql("dim_store_details", engine, if_exists = "replace")
+        df.to_sql("dim_date_times", engine, if_exists = "replace")

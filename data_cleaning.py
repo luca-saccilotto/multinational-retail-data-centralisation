@@ -83,5 +83,90 @@ class DataCleaning:
 
         return df
     
-    # Create a method to clean store details
+    # Create a method to convert products weight
+    def convert_product_weights(self, df):
+
+        """Create an empty column for unit"""
+        df["unit"] = pd.NA
+
+        """Loop through the rows of the dataframe"""
+        for index, row in df.iterrows():
+            weight = str(row["weight"])
+
+            """Check the measure of weight"""
+            if "kg" in weight:
+                unit = "kg"
+            elif "g" in weight:
+                unit = "g"
+            elif "ml" in weight:
+                unit = "ml"
+            elif "oz" in weight:
+                unit = "oz"
+            else:
+                continue
+
+            """Save the unit and weight to their respective columns"""
+            df.at[index, "unit"] = unit
+            df.at[index, "weight"] = weight.replace(unit, "")
+
+            """Take a value that may contain a quantity multiplier and evaluate it"""
+            if "x" in weight:
+                weight = eval(weight.replace("x", "*").replace(" ", "").replace("g", ""))
+            else:
+                continue
+
+        """Replace weight of row 1779 with 77"""
+        df.at[1779, "weight"] = 77
+
+        """Remove incorrectly typed values"""
+        df = df[pd.to_numeric(df["weight"], errors = "coerce").notnull()]
+
+        """Standardize weight type to numeric"""
+        df["weight"] = df["weight"].astype(float)
+
+        """Standardize units measure"""
+        df.loc[df["unit"] == "g", "weight"] /= 1000
+        df.loc[df["unit"] == "ml", "weight"] /= 1000
+        df.loc[df["unit"] == "oz", "weight"] /= 35.274
+
+        return df
     
+    # Create a method to clean products details
+    def clean_product_data(self, df):
+        
+        """Remove null values and duplicates"""
+        df = df.dropna()
+        df = df.drop_duplicates()
+
+        """Drop the first and last column"""
+        df = df.drop(df.columns[0], axis = 1)
+        df = df.drop(columns = ["unit"])
+
+        """Add an index column and rename it"""
+        df = df.reset_index().rename(columns = {"index": "id"})
+
+        """Replace values in column"""
+        df["removed"] = df["removed"].replace("Still_avaliable", "Available")
+
+        """Return standardize opening dates"""
+        df["date_added"] = pd.to_datetime(df["date_added"], infer_datetime_format = True, errors = "coerce")
+
+        return df
+    
+    # Create a method to clean orders table
+    def clean_orders_data(self, df):
+        column_names = ["first_name", "last_name", "1", "level_0", "index"]
+        df = df.drop(columns = column_names)
+        return df
+    
+    # Create a method to clean date events data
+    def clean_events_data(self, df):
+
+        """Remove null values and duplicates"""
+        df = df.dropna()
+        df = df.drop_duplicates()
+
+        """Remove incorrectly typed values"""
+        df = df[df["time_period"].str.contains("Midday|Late_Hours|Evening|Morning")]
+        
+        return df
