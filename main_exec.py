@@ -73,7 +73,7 @@ product_details = data_cleaning.clean_product_data(product_details)
 ## Use the method to upload store details in the database
 db_connector.upload_to_db(product_details)
 
-# %%
+#%%
 
 ## Extract and read orders data from the database
 orders_data = data_extractor.read_rds_table(db_connector, "orders_table")
@@ -84,7 +84,7 @@ orders_data = data_cleaning.clean_orders_data(orders_data)
 ## Use the method to upload orders data in the database
 db_connector.upload_to_db(orders_data)
 
-# %%
+#%%
 
 ## Extract date events data stored in an S3 bucket on AWS
 date_events = data_extractor.extract_events_data(
