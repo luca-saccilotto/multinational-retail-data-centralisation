@@ -97,5 +97,3 @@ date_events = data_cleaning.clean_events_data(date_events)
 
 ## Use the method to upload store details in the database
 db_connector.upload_to_db(date_events)
-
-# %%
