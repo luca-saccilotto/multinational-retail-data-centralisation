@@ -161,3 +161,60 @@ ALTER TABLE dim_card_details
     ALTER COLUMN card_number TYPE VARCHAR(22) USING card_number::VARCHAR(22),
     ALTER COLUMN expiry_date TYPE VARCHAR(5) USING expiry_date::VARCHAR(5),
     ALTER COLUMN date_payment_confirmed TYPE DATE USING date_payment_confirmed::DATE;
+
+-- Remove the "?" symbol from the "card_number" column
+SELECT card_number FROM dim_card_details WHERE card_number LIKE '%?%';
+
+UPDATE dim_card_details
+	SET card_number = REPLACE(card_number, '?', '');
+
+-- Find the primary key of a table
+SELECT
+    pg_attribute.attname as column_name,
+    format_type(pg_attribute.atttypid, pg_attribute.atttypmod) as data_type
+FROM
+    pg_index, pg_class, pg_attribute
+WHERE
+    pg_class.oid = 'table_name'::regclass AND
+    indrelid = pg_class.oid AND
+    pg_attribute.attrelid = pg_class.oid AND
+    pg_attribute.attnum = any(pg_index.indkey)
+    AND indisprimary;
+
+-- Create the primary keys in the dimension tables
+ALTER TABLE dim_card_details
+	ADD CONSTRAINT card_number PRIMARY KEY (card_number);
+
+ALTER TABLE dim_date_times
+	ADD CONSTRAINT date_uuid PRIMARY KEY (date_uuid);
+
+ALTER TABLE dim_products
+	ADD CONSTRAINT product_code PRIMARY KEY (product_code);
+
+ALTER TABLE dim_store_details
+	ADD CONSTRAINT store_code PRIMARY KEY (store_code);
+
+ALTER TABLE dim_users
+	ADD CONSTRAINT user_uuid PRIMARY KEY (user_uuid);
+
+-- Add the foreign keys constraints to the orders_table
+ALTER TABLE orders_table
+	ADD CONSTRAINT card_number
+	FOREIGN KEY (card_number)
+	REFERENCES dim_card_details (card_number),
+	
+	ADD CONSTRAINT date_uuid
+	FOREIGN KEY (date_uuid)
+	REFERENCES dim_date_times (date_uuid),
+	
+	ADD CONSTRAINT product_code
+	FOREIGN KEY (product_code)
+	REFERENCES dim_products (product_code),
+	
+	ADD CONSTRAINT store_code
+	FOREIGN KEY (store_code)
+	REFERENCES dim_store_details (store_code),
+	
+	ADD CONSTRAINT user_uuid
+	FOREIGN KEY (user_uuid)
+	REFERENCES dim_users (user_uuid);
