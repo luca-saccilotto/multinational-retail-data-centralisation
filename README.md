@@ -8,7 +8,7 @@ The primary objective of this project is to develop a system that stores the com
 In Milestone 1, the focus was on setting up the development environment. This involved installing the necessary tools and libraries required to run the program. A virtual environment was created to keep the dependencies for the project isolated from the other projects on the machine. This step helped to avoid potential conflicts with other projects.
 
 ## Milestone 2
-In Milestone 2, a new database was set up and the data extracted from various sources, such as PDF documents, an AWS RDS database, RESTful API, JSON, and CSVs. To realized that, three classes were created - `DataExtractor`, `DataCleaning`, and `DatabaseConnector` - which contain methods to extract, clean, and connect the data to the database.
+In Milestone 2, a new database was set up and the data extracted from various sources, such as PDFs, an AWS RDS database, RESTful API, JSON, and CSVs. To realized that, three classes were created - `DataExtractor`, `DataCleaning`, and `DatabaseConnector` - which contain methods to extract, clean, and connect the data to the database.
 
 These classes were designed to provide an efficient and straightforward process for handling the data from multiple sources and ensure its accuracy and consistency. Overall, this represents a significant step towards centralizing the company's sales data and enabling the team to access it more efficiently.
 
