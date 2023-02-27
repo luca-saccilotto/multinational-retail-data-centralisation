@@ -84,7 +84,7 @@ ALTER TABLE dim_store_details
     ALTER COLUMN country_code TYPE VARCHAR(3) USING country_code::VARCHAR(3);
 
 UPDATE dim_store_details
-SET country_code = COALESCE(country_code, 'Web');
+    SET country_code = COALESCE(country_code, 'Web');
 
 SELECT
     SUM(staff_numbers) AS total_staff_numbers,
