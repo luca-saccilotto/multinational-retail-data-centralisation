@@ -197,7 +197,18 @@ ALTER TABLE dim_store_details
 ALTER TABLE dim_users
 	ADD CONSTRAINT user_uuid PRIMARY KEY (user_uuid);
 
--- Add the foreign keys constraints to the orders_table
+-- Add a new row of data into the table 
+INSERT INTO dim_store_details (store_code, staff_numbers, opening_date, store_type)
+VALUES ('WEB-1388012W', '325', '2010-06-12', 'Web Portal');
+
+-- Delete all orders that have product codes not present in the table
+DELETE FROM orders_table
+	WHERE product_code NOT IN (SELECT product_code FROM dim_products);
+
+DELETE FROM orders_table
+	WHERE store_code NOT IN (SELECT store_code FROM dim_store_details);
+
+-- Add the foreign keys constraints
 ALTER TABLE orders_table
 	ADD CONSTRAINT card_number
 	FOREIGN KEY (card_number)
@@ -206,7 +217,7 @@ ALTER TABLE orders_table
 	ADD CONSTRAINT date_uuid
 	FOREIGN KEY (date_uuid)
 	REFERENCES dim_date_times (date_uuid),
-	
+
 	ADD CONSTRAINT product_code
 	FOREIGN KEY (product_code)
 	REFERENCES dim_products (product_code),
