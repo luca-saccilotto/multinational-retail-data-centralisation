@@ -1,4 +1,4 @@
-# AiCore Scenario - Data Handling
+# AiCore - Data Handling Scenario
 
 This project aims to develop a data management system for a multinational company. In particular, the organization operates in various countries, but its data is currently spread across multiple sources, making it challenging to access and analyze.
 
