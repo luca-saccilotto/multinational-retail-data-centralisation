@@ -16,9 +16,4 @@ These classes were designed to provide an efficient and straightforward process 
 In Milestone 3, I have developed the star-based schema of the database in SQL, ensuring that the columns are of the correct data types. This design has a simple structure that enables faster querying and aggregation of data. The database schema includes one fact table that contains the primary metrics and several dimension tables with the attributes that provide context to the analysis.
 
 ## Milestone 4
-In order to integrate the game with the model, I used the _OpenCV_ library to capture frames from the webcam. Then, I utilize the `cv2.resize()` function to resize the frames, which is the input size of the pre-trained model.  Finally, I employed `cv2.imshow()` to display the original frame on the screen, and the `model.predict()` function to get the predicted class of the resized image.
-
-## Conclusion
-To improve the functionality of the program, the following features could have been implemented:
-- **Scorekeeping** - A scoring system that keeps track of the number of rounds won by the user and the computer, and displays the score on the screen;
-- **GUI** - A graphical user interface (GUI) library, such as _Pygame_ or _Tkinter_, to create a more user-friendly interface for the game.
+In Milestone 4, the objective was to query for information from the database. To answer management questions with some updated metrics, data was pulled from the database using SQL. This means that now the business can start making more data-driven decisions to gain a better understanding of its business, saving time and reducing costs.
