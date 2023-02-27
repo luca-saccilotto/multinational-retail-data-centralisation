@@ -1,6 +1,9 @@
 #%%
 
 # Import classes and methods
+import sys
+sys.path.insert(0, "../multinational-retail-data-centralisation/scripts")
+
 from database_utils import DatabaseConnector
 from data_extraction import DataExtractor
 from data_cleaning import DataCleaning
@@ -97,5 +100,3 @@ date_events = data_cleaning.clean_events_data(date_events)
 
 ## Use the method to upload store details in the database
 db_connector.upload_to_db(date_events)
-
-# %%

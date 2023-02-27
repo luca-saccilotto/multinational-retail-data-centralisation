@@ -1,6 +1,6 @@
 # AiCore - Data Handling Scenario
 
-This project aims to develop a data management system for a multinational company. In particular, the organization operates in various countries, but its data is currently spread across multiple sources, making it challenging to access and analyze.
+This project aims to develop a data management system for a multinational company. In particular, this organization operates in various countries, but its data is currently spread across multiple sources, making it challenging to access and analyze.
 
 The primary objective of this project is to develop a system that stores the company's data in a database, enabling easy access from a centralized location, and allowing the team to query the relational database for up-to-date business metrics.
 
