@@ -1,4 +1,4 @@
-# AiCore Scenario - Data Handling
+# AiCore Scenario - Multinational Data Centralisation System
 
 This project aims to develop a data management system for a multinational company. In particular, this organization operates in various countries, but its data is currently spread across multiple sources, making it challenging to access and analyze.
 
