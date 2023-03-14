@@ -3,3 +3,9 @@ RDS_PASSWORD: AiCore2022
 RDS_USER: aicore_admin
 RDS_DATABASE: postgres
 RDS_PORT: 5432
+
+SQL_HOST: "localhost"
+SQL_PASSWORD: "yqcjftVD644"
+SQL_USER: "postgres"
+SQL_DATABASE: "Sales_Data"
+SQL_PORT: 5432

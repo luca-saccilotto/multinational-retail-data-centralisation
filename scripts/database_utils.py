@@ -41,15 +41,16 @@ class DatabaseConnector:
     
     # Create a method to upload the data in the database
     def upload_to_db(self, df):
+        credentials = self.read_db_creds()
 
         """Report server and database details"""
         DATABASE_TYPE = "postgresql"
         DBAPI = "psycopg2"
-        HOST = "localhost"
-        USER = "postgres"
-        PASSWORD = "yqcjftVD644"
-        DATABASE = "Sales_Data"
-        PORT = 5432
+        HOST = credentials["SQL_HOST"]
+        USER = credentials["SQL_USER"]
+        PASSWORD = credentials["SQL_PASSWORD"]
+        DATABASE = credentials["SQL_DATABASE"]
+        PORT = credentials["SQL_PORT"]
 
         """Store the data in the database"""
         engine = create_engine(f"{DATABASE_TYPE}+{DBAPI}://{USER}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}")
